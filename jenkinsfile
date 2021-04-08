@@ -1,7 +1,7 @@
 node {
-        stage("preparation"){
-                git "https://github.com/mahmoud254/simple-java-maven-app.git"
-        }
+        //stage("preparation"){
+                //git "https://github.com/mahmoud254/simple-java-maven-app.git"
+        //}
 
         stage('Build') {
 
