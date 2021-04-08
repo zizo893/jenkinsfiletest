@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+    stages {
+        stage('preparation') {
+            steps {
+                // Get some code from a GitHub repository
+                git 'https://github.com/zizo893/jenkins_nodejs_example.git'
+
+            }
+
+        }
+
+        stage ('build ') {
+            
+            steps {
+                WithCredentials([usernamePassword(usernameVariable:"username",PasswordVariable:"Pass")]){
+                sh 'docker build . -t zizo893/dockerized_nodejs:${GIT_COMMIT}'
+                sh 'docker login -u ${username} -p ${Pass}'
+                sh 'docker push ${username}/dockerized_nodejs:${GIT_COMMIT}'
+                }    
+            }
+        }        
+         
+         
+        stage ('Deploy') {
+            
+            steps {
+                
+                sh 'docker run -p 3000:3000 -id ${username}/dockerized_nodejs:${GIT_COMMIT} '
+                
+                
+                
+            }
+            
+            
+        } 
+         
+                
+    }   
+    
+}

@@ -1,0 +1,5 @@
+FROM jenkins/jenkins:lts 
+USER    root 
+#install docker client 
+RUN brew cask install docker
+RUN usermod -aG docker jenkins 
