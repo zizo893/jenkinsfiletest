@@ -1,25 +1,34 @@
-pipeline {
-    agent any
-    stages {
-        stage('Build') {
-            steps {
-                sh 'echo hi'
-            }
+node {
+        stage("preparation"){
+                git "https://github.com/mahmoud254/simple-java-maven-app.git"
         }
+
+        stage('Build') {
+
+                sh 'echo hi'
+                sh 'ls'
+
+        }
+        try{
         stage('Test') {
-            steps {
+
                 sh 'echo testing'
-            }
-            post {
-                always {
-                    sh 'echo results'
+        }
+        }
+        catch(e){
+                echo "error"
+        }
+        finally{
+                echo currentBuild.currentResult
+                if (currentBuild.currentResult=="SUCCESS") {
+                        echo "successful pipeline"
                 }
-            }
+        
         }
         stage('Deliver') {
-            steps {
-                sh 'echo sending'
-            }
+
+                sh 'echo test branch'
+
         }
-    }
+    
 }
